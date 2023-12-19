@@ -27,5 +27,5 @@ python manage.py configure_instance
 # Create the default bucket
 python manage.py create_bucket
 
-python manage.py runserver 0.0.0.0:8000 --settings=plane.settings.local
+python manage.py runserver 0.0.0.0:8010 --settings=plane.settings.local
 

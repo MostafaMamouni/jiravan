@@ -29,6 +29,9 @@ ADD requirements ./requirements
 
 # Install the local development settings
 RUN pip install -r requirements/local.txt --compile --no-cache-dir
+RUN pip install psycopg2==2.9.6  # https://github.com/psycopg/psycopg2
+RUN pip install django-debug-toolbar==4.1.0
+COPY entrypoint/entrypoint.sh /entrypoint.sh
 
 RUN addgroup -S plane && \
     adduser -S captain -G plane
@@ -43,11 +46,12 @@ USER root
 
 # RUN chmod +x ./bin/takeoff ./bin/worker ./bin/beat
 RUN chmod -R 777 /code
-
+RUN sed -i 's/\r$//g' /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 USER captain
 
 # Expose container port and run entry point script
-EXPOSE 8000
-
+EXPOSE 8010
 CMD [ "./bin/takeoff.local" ]
+ENTRYPOINT ["/entrypoint.sh"]
 
