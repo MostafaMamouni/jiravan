@@ -11,6 +11,7 @@ from plane.license.utils.encryption import decrypt_data
 
 # Helper function to return value from the passed key
 def get_configuration_value(keys):
+
     environment_list = []
     if settings.SKIP_ENV_VAR:
         # Get the configurations
@@ -22,10 +23,9 @@ def get_configuration_value(keys):
             for item in instance_configuration:
                 if key.get("key") == item.get("key"):
                     if item.get("is_encrypted", False):
-                        environment_list.append(decrypt_data(item.get("value")))
+                        environment_list.append(item.get("value"))
                     else:
                         environment_list.append(item.get("value"))
-
                     break
             else:
                 environment_list.append(key.get("default"))
